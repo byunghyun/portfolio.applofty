@@ -1,4 +1,9 @@
+import { useNavigate, useLocation } from 'react-router-dom';
+
 const GlobalLeftMenu = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   return (
     <div className='hidden md:block fixed top-0 left-0 min-w-[280px] h-full p-6'>
       <div className='flex flex-col justify-between w-full h-full border-border bg-bg rounded-2xl border'>
@@ -18,7 +23,12 @@ const GlobalLeftMenu = () => {
           </div>
           <ul className='w-full flex flex-col'>
             <li className='cursor-pointer'>
-              <button className='cursor-pointer flex flex-row items-center gap-[9px] bg-base py-3 px-4 w-full rounded-[12px]'>
+              <button
+                onClick={() => navigate('/')}
+                className={`cursor-pointer flex flex-row items-center gap-[9px] py-3 px-4 w-full rounded-[12px] ${
+                  location.pathname === '/' ? 'bg-base' : ''
+                }`}
+              >
                 <svg
                   width='24'
                   height='24'
@@ -40,7 +50,12 @@ const GlobalLeftMenu = () => {
               </button>
             </li>
             <li className='cursor-pointer'>
-              <button className='cursor-pointer flex flex-row items-center gap-[9px] py-3 px-4 w-full rounded-[12px]'>
+              <button
+                onClick={() => navigate('/about')}
+                className={`cursor-pointer flex flex-row items-center gap-[9px] py-3 px-4 w-full rounded-[12px] ${
+                  location.pathname === '/about' ? 'bg-base' : ''
+                }`}
+              >
                 <svg
                   width='24'
                   height='24'

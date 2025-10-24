@@ -1,0 +1,141 @@
+@import 'tailwindcss';
+
+@theme {
+  --font-pretendard: 'Pretendard', sans-serif;
+  --font-inter: 'InterVariable', ui-sans-serif, system-ui, -apple-system,
+    'Segoe UI', Roboto, 'Noto Sans', 'Apple SD Gothic Neo', 'Helvetica Neue',
+    Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+
+  /* Dark mode colors (default) */
+  --color-base: rgb(23 23 37); /* #171725 */
+  --color-bg: rgb(30 30 46); /* #1E1E2E */
+  --color-gray: rgb(33 33 49); /* #212131 */
+  --color-border: rgb(46 46 68); /* #2E2E44 */
+  --color-text: rgb(130 136 149); /* #828895 */
+  --color-white: rgb(255 255 255); /* #FFFFFF */
+  --color-primary: rgb(84 226 126); /* #54E27E */
+  --color-btn-text-dark: rgb(23 23 37); /* #171725 */
+  --color-btn-text-light: rgb(255 255 255); /* #FFFFFF */
+  --color-btn-bg: rgb(30 30 46); /* #1E1E2E */
+}
+
+/* Light mode colors (optional) */
+.light {
+  --color-base: rgb(234 236 248); /* #EAECF8 */
+  --color-bg: rgb(246 246 255); /* #F6F6FF */
+  --color-gray: rgb(241 241 255); /* #F1F1FF */
+  --color-border: rgb(225 226 242); /* #E1E2F2 */
+  --color-text: rgb(104 110 124); /* #686E7C */
+  --color-white: rgb(77 77 92); /* #4D4D5C */
+  --color-primary: rgb(84 226 126); /* #54E27E */
+  --color-btn-text-dark: rgb(23 23 37); /* #171725 */
+  --color-btn-text-light: rgb(23 23 37); /* #171725 */
+  --color-btn-bg: rgb(236 237 255); /* #ECEDFF */
+}
+
+/* 가변 폰트의 opsz(광학 사이즈)를 자동 켜기 */
+:root {
+  font-optical-sizing: auto;
+}
+
+body {
+  @apply bg-base;
+}
+
+/* normal */
+@font-face {
+  font-family: 'InterVariable';
+  src: url('/assets/fonts/inter/Inter-VariableFont_opsz,wght.ttf')
+    format('truetype-variations');
+  font-weight: 100 900; /* 가변: 100~900 범위 */
+  font-style: normal;
+  font-display: swap;
+  font-named-instance: 'Regular';
+}
+
+/* italic */
+@font-face {
+  font-family: 'InterVariable';
+  src: url('/assets/fonts/inter/Inter-Italic-VariableFont_opsz,wght.ttf')
+    format('truetype-variations');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+  font-named-instance: 'Italic';
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/assets/fonts/pretendard/Pretendard-Black.woff') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/assets/fonts/pretendard/Pretendard-ExtraBold.woff')
+    format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/assets/fonts/pretendard/Pretendard-Bold.woff') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/assets/fonts/pretendard/Pretendard-SemiBold.woff')
+    format('opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/assets/fonts/pretendard/Pretendard-Medium.woff') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/assets/fonts/pretendard/Pretendard-Regular.woff')
+    format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/assets/fonts/pretendard/Pretendard-Light.woff') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/assets/fonts/pretendard/Pretendard-ExtraLight.woff')
+    format('opentype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/assets/fonts/pretendard/Pretendard-Thin.woff') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}

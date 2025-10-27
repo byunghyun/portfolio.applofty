@@ -1,4 +1,4 @@
-import { motion } from 'motion/react';
+import { AnimatePresence, motion } from 'motion/react';
 import { cn } from '../utils/tailwindcss';
 import { useState } from 'react';
 
@@ -261,6 +261,19 @@ export default function About() {
           </div>
         </div>
       </div>
+
+      {/* Backdrop */}
+      <AnimatePresence>
+        {selectedId !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className='fixed inset-0 bg-black/80 z-40'
+            onClick={() => setSelectedId(null)}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 }

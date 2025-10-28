@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion } from 'motion/react';
 import { cn } from '../utils/tailwindcss';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 import ReactPlayer from 'react-player';
 import type { ServiceCardProps } from './types';
+import type { Swiper as SwiperType } from 'swiper';
 
 export default function ServiceCard({
   service,
@@ -18,6 +19,7 @@ export default function ServiceCard({
   const [selectedMediaIndex, setSelectedMediaIndex] = useState<number | null>(
     null,
   );
+  const mainSwiperRef = useRef<SwiperType | null>(null);
 
   // Combine videos and images into one media array
   const allMedia = [
@@ -63,6 +65,10 @@ export default function ServiceCard({
   const handleSelectGalleryMedia = (index: number) => (e: React.MouseEvent) => {
     e.stopPropagation();
     setSelectedMediaIndex(index);
+    // Sync main swiper to selected index
+    if (mainSwiperRef.current) {
+      mainSwiperRef.current.slideTo(index);
+    }
   };
   return (
     <div key={`portfolio_${index}`} className='w-full'>
@@ -305,12 +311,11 @@ export default function ServiceCard({
                           </h3>
                           <div className='swiper-custom-nav'>
                             <Swiper
-                              modules={[Navigation, Pagination]}
-                              navigation
+                              modules={[Pagination]}
                               pagination={{ clickable: true }}
-                              spaceBetween={20}
-                              slidesPerView={3}
-                              className='rounded-lg px-3!'
+                              spaceBetween={16}
+                              slidesPerView={2.5}
+                              className='rounded-lg'
                             >
                               {allMedia.map((media, i) => (
                                 <SwiperSlide key={`media-${i}`}>
@@ -350,6 +355,7 @@ export default function ServiceCard({
                                         src={media.url}
                                         alt={`${service.title} - ${i + 1}`}
                                         className='w-full h-full object-cover transition-transform duration-200 hover:scale-105'
+                                        draggable={false}
                                       />
                                     )}
                                   </div>
@@ -463,7 +469,7 @@ export default function ServiceCard({
               <div className='flex justify-end p-4'>
                 <button
                   onClick={handleCloseMediaModal}
-                  className='h-10 w-10 border border-border rounded-full flex items-center justify-center hover:bg-border transition-colors'
+                  className='h-10 w-10 border border-border rounded-full flex items-center justify-center hover:bg-border transition-colors cursor-pointer'
                 >
                   <svg
                     width='20'
@@ -485,73 +491,118 @@ export default function ServiceCard({
 
               {/* Main Media */}
               <div className='flex-1 flex items-center justify-center px-8 pb-4'>
-                {allMedia[selectedMediaIndex].type === 'video' ? (
-                  <div className='w-full max-h-[60vh] aspect-video'>
-                    <ReactPlayer
-                      src={allMedia[selectedMediaIndex].url}
-                      controls={true}
-                      width='100%'
-                      height='100%'
-                    />
-                  </div>
-                ) : (
-                  <img
-                    src={allMedia[selectedMediaIndex].url}
-                    alt={`${service.title} - ${selectedMediaIndex + 1}`}
-                    className='max-w-full max-h-[60vh] object-contain'
-                  />
-                )}
-              </div>
-
-              {/* Gallery Thumbnails */}
-              <div className='border-t border-border px-8 py-6'>
-                <div className='flex gap-3 overflow-x-auto'>
+                <Swiper
+                  modules={[Pagination]}
+                  spaceBetween={20}
+                  slidesPerView={1}
+                  initialSlide={selectedMediaIndex}
+                  onSwiper={(swiper) => (mainSwiperRef.current = swiper)}
+                  onSlideChange={(swiper) => {
+                    setSelectedMediaIndex(swiper.activeIndex);
+                  }}
+                  touchStartPreventDefault={false}
+                  touchMoveStopPropagation={false}
+                  threshold={10}
+                  className='w-full h-full'
+                >
                   {allMedia.map((media, i) => (
-                    <div
-                      key={`gallery-thumb-${i}`}
-                      className={cn('w-24 h-24 shrink-0 relative', {
-                        'border-primary': selectedMediaIndex === i,
-                        'border-border hover:border-text':
-                          selectedMediaIndex !== i,
-                      })}
-                    >
-                      <div
-                        onClick={handleSelectGalleryMedia(i)}
-                        className={cn(
-                          'w-full h-full rounded-lg overflow-hidden cursor-pointer transition-transform',
-                          selectedMediaIndex === i && 'scale-105',
-                        )}
-                      >
+                    <SwiperSlide key={`main-media-${i}`}>
+                      <div className='w-full h-full flex items-center justify-center'>
                         {media.type === 'video' ? (
-                          <div className='w-full h-full bg-linear-to-br from-gray-800 to-gray-900 flex items-center justify-center relative'>
-                            <svg
-                              width='32'
-                              height='32'
-                              viewBox='0 0 24 24'
-                              fill='white'
-                              xmlns='http://www.w3.org/2000/svg'
-                            >
-                              <path d='M8 5v14l11-7z' />
-                            </svg>
+                          <div className='w-full h-full flex items-center justify-center'>
+                            <div className='aspect-video w-full max-h-full'>
+                              <ReactPlayer
+                                src={media.url}
+                                controls={true}
+                                width='100%'
+                                height='100%'
+                                playing={false}
+                                className='react-player-swiper'
+                              />
+                            </div>
                           </div>
                         ) : (
                           <img
                             src={media.url}
-                            alt={`Thumbnail ${i + 1}`}
-                            className='w-full h-full object-cover'
+                            alt={`${service.title} - ${i + 1}`}
+                            className='max-w-full h-full object-contain'
+                            draggable={false}
                           />
                         )}
                       </div>
-                      {/* <div
-                        className={cn(
-                          'absolute inset-0 rounded-lg border-2 pointer-events-none transition-colors',
-                          selectedMediaIndex === i
-                            ? 'border-primary'
-                            : 'border-border hover:border-text',
-                        )}
-                      /> */}
-                    </div>
+                    </SwiperSlide>
                   ))}
+                </Swiper>
+              </div>
+
+              {/* Gallery Thumbnails */}
+              <div className='border-t border-border px-4 pt-6 pb-12'>
+                <div className='swiper-custom-nav'>
+                  <Swiper
+                    modules={[Pagination]}
+                    pagination={{ clickable: true }}
+                    spaceBetween={12}
+                    slidesPerView='auto'
+                    className='rounded-lg'
+                  >
+                    {allMedia.map((media, i) => (
+                      <SwiperSlide
+                        key={`gallery-thumb-${i}`}
+                        style={{ width: '96px' }}
+                      >
+                        <div
+                          className={cn('w-24 h-24 relative border-2', {
+                            'border-primary': selectedMediaIndex === i,
+                            'border-border ': selectedMediaIndex !== i,
+                          })}
+                        >
+                          <div
+                            onClick={handleSelectGalleryMedia(i)}
+                            className={cn(
+                              'w-full h-full overflow-hidden cursor-pointer transition-transform',
+                            )}
+                          >
+                            {media.type === 'video' ? (
+                              <div
+                                className={cn(
+                                  'w-full h-full bg-linear-to-br from-gray-800 to-gray-900 flex items-center justify-center relative',
+                                  {
+                                    'scale-105': selectedMediaIndex === i,
+                                  },
+                                )}
+                              >
+                                <svg
+                                  width='32'
+                                  height='32'
+                                  viewBox='0 0 24 24'
+                                  fill='white'
+                                  xmlns='http://www.w3.org/2000/svg'
+                                >
+                                  <path d='M8 5v14l11-7z' />
+                                </svg>
+                              </div>
+                            ) : (
+                              <div
+                                className={cn(
+                                  'w-full h-full bg-linear-to-br from-gray-800 to-gray-900 flex items-center justify-center relative',
+                                  {
+                                    'scale-105': selectedMediaIndex === i,
+                                  },
+                                )}
+                              >
+                                <img
+                                  src={media.url}
+                                  alt={`Thumbnail ${i + 1}`}
+                                  className='w-full h-full object-cover'
+                                  draggable={false}
+                                />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
                 </div>
               </div>
             </motion.div>

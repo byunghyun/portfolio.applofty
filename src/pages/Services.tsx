@@ -17,7 +17,7 @@ export default function Services() {
   return (
     <>
       <div className='relative w-full md:w-[calc(100%-280px)] flex flex-col items-center overflow-auto'>
-        <header className='sticky z-10 top-0 bg-base flex md:hidden items-center justify-between min-h-[72px] w-full px-6 py-4 '>
+        <header className='sticky z-10 top-0 bg-base flex md:hidden items-center justify-between min-h-[72px] w-full px-8 lg:px-8 py-4 '>
           <div className='w-8 h-8 bg-white rounded-full' />
           <div className='cursor-pointer flex items-center justify-center w-10 h-10 bg-gray border border-border rounded-full '>
             <button className='cursor-pointer' onClick={handleClickMobileMenu}>
@@ -38,9 +38,9 @@ export default function Services() {
             </button>
           </div>
         </header>
-        <div className='lg:w-full px-6 lg:px-8 xl:w-[900px] 2xl:w-[1240px] mt-12 md:mt-[102px] h-[calc(100%-72px)]'>
-          <div>
-            <header>
+        <div className='lg:w-full w-full px-8 lg:px-8 xl:w-[900px] 2xl:w-[1240px] mt-12 md:mt-[102px] h-[calc(100%-72px)]'>
+          <div className='w-full'>
+            <header className='w-full'>
               <h3 className='text-[32px] font-inter font-bold text-white text-left truncate'>
                 Test Transition
               </h3>
@@ -48,7 +48,7 @@ export default function Services() {
                 Test Transition.
               </p>
             </header>
-            <div className='grid lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-6 mt-8 pb-6 relative'>
+            <div className='w-full grid grid-cols-1 lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-6 mt-8 pb-6 relative'>
               {servicesList.map((service, index) => (
                 <ServiceCard
                   key={`portfolio_${index}`}

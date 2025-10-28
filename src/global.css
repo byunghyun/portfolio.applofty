@@ -141,21 +141,27 @@ body {
 }
 
 /* Swiper Custom Styles */
-.swiper-custom-nav .swiper-button-prev,
-.swiper-custom-nav .swiper-button-next {
-  color: white;
-}
-
-.swiper-custom-nav .swiper-button-prev.swiper-button-disabled,
-.swiper-custom-nav .swiper-button-next.swiper-button-disabled {
-  color: rgb(130 136 149); /* --color-text */
-  opacity: 0.5;
-}
-
 .swiper-custom-nav .swiper-pagination-bullet {
   background: white;
 }
 
 .swiper-custom-nav .swiper-pagination-bullet-active {
-  background: rgb(84 226 126); /* --color-primary */
+  background: white; /* --color-primary */
+}
+
+.swiper {
+  overflow: visible !important;
+}
+
+.swiper-pagination {
+  bottom: -30px !important;
+}
+
+/* Allow swiping over ReactPlayer videos */
+.react-player-swiper > div {
+  pointer-events: auto;
+}
+
+.react-player-swiper video {
+  pointer-events: auto;
 }

@@ -87,7 +87,7 @@ export default function ServiceCard({
         onClick={!isSelected ? onSelect : undefined}
         className={`bg-base rounded-3xl border-border flex flex-col border overflow-hidden  ${
           isSelected
-            ? 'fixed inset-0 z-50 m-auto w-[80%] max-w-full lg:max-w-5xl max-h-[90vh] overflow-y-auto'
+            ? 'fixed inset-0 z-50 m-auto w-[calc(100%-58px)] max-w-full lg:max-w-5xl h-[82vh] overflow-y-auto'
             : 'w-full cursor-pointer'
         }`}
         whileHover={
